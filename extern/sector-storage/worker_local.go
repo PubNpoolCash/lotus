@@ -40,8 +40,8 @@ const (
 )
 
 type WorkerConfig struct {
-	TaskTypes []sealtasks.TaskType
-	NoSwap    bool
+	TaskTypes     []sealtasks.TaskType
+	NoSwap        bool
 	AddPieceMax   int64
 	PreCommit1Max int64
 	PreCommit2Max int64
@@ -126,8 +126,8 @@ func newLocalWorker(executor ExecutorFunc, wcfg WorkerConfig, store stores.Store
 		taskCount:   0,
 		noSwap:      wcfg.NoSwap,
 
-		session: uuid.New(),
-		closing: make(chan struct{}),
+		session:       uuid.New(),
+		closing:       make(chan struct{}),
 		addPieceMax:   wcfg.AddPieceMax,
 		preCommit1Max: wcfg.PreCommit1Max,
 		preCommit2Max: wcfg.PreCommit2Max,

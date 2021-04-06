@@ -506,7 +506,7 @@ var runCmd = &cli.Command{
 
 		workerApi := &worker{
 			LocalWorker: sectorstorage.NewLocalWorker(sectorstorage.WorkerConfig{
-				TaskTypes: taskTypes,
+				TaskTypes:     taskTypes,
 				AddPieceMax:   cctx.Int64("addpiecemax"),
 				PreCommit1Max: cctx.Int64("precommit1max"),
 				PreCommit2Max: cctx.Int64("precommit2max"),

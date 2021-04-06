@@ -367,23 +367,23 @@ type StorageMinerStruct struct {
 		GetWorker      func(ctx context.Context) (map[string]sectorstorage.WorkerInfo, error)   `perm:"admin"`
 		SetWorkerParam func(ctx context.Context, worker string, key string, value string) error `perm:"admin"`
 
-		SealingSchedDiag                      func(context.Context, bool) (interface{}, error)                  `perm:"admin"`
-		DealsImportData                       func(ctx context.Context, dealPropCid cid.Cid, file string) error `perm:"write"`
-		DealsList                             func(ctx context.Context) ([]api.MarketDeal, error)               `perm:"read"`
-		DealsConsiderOnlineStorageDeals       func(context.Context) (bool, error)                               `perm:"read"`
-		DealsSetConsiderOnlineStorageDeals    func(context.Context, bool) error                                 `perm:"admin"`
-		DealsConsiderOnlineRetrievalDeals     func(context.Context) (bool, error)                               `perm:"read"`
-		DealsSetConsiderOnlineRetrievalDeals  func(context.Context, bool) error                                 `perm:"admin"`
-		DealsConsiderOfflineStorageDeals      func(context.Context) (bool, error)                               `perm:"read"`
-		DealsSetConsiderOfflineStorageDeals   func(context.Context, bool) error                                 `perm:"admin"`
-		DealsConsiderOfflineRetrievalDeals    func(context.Context) (bool, error)                               `perm:"read"`
-		DealsSetConsiderOfflineRetrievalDeals func(context.Context, bool) error                                 `perm:"admin"`
+		SealingSchedDiag                       func(context.Context, bool) (interface{}, error)                  `perm:"admin"`
+		DealsImportData                        func(ctx context.Context, dealPropCid cid.Cid, file string) error `perm:"write"`
+		DealsList                              func(ctx context.Context) ([]api.MarketDeal, error)               `perm:"read"`
+		DealsConsiderOnlineStorageDeals        func(context.Context) (bool, error)                               `perm:"read"`
+		DealsSetConsiderOnlineStorageDeals     func(context.Context, bool) error                                 `perm:"admin"`
+		DealsConsiderOnlineRetrievalDeals      func(context.Context) (bool, error)                               `perm:"read"`
+		DealsSetConsiderOnlineRetrievalDeals   func(context.Context, bool) error                                 `perm:"admin"`
+		DealsConsiderOfflineStorageDeals       func(context.Context) (bool, error)                               `perm:"read"`
+		DealsSetConsiderOfflineStorageDeals    func(context.Context, bool) error                                 `perm:"admin"`
+		DealsConsiderOfflineRetrievalDeals     func(context.Context) (bool, error)                               `perm:"read"`
+		DealsSetConsiderOfflineRetrievalDeals  func(context.Context, bool) error                                 `perm:"admin"`
 		DealsConsiderVerifiedStorageDeals      func(context.Context) (bool, error)                               `perm:"read"`
 		DealsSetConsiderVerifiedStorageDeals   func(context.Context, bool) error                                 `perm:"admin"`
 		DealsConsiderUnverifiedStorageDeals    func(context.Context) (bool, error)                               `perm:"read"`
 		DealsSetConsiderUnverifiedStorageDeals func(context.Context, bool) error                                 `perm:"admin"`
-		DealsPieceCidBlocklist                func(context.Context) ([]cid.Cid, error)                          `perm:"read"`
-		DealsSetPieceCidBlocklist             func(context.Context, []cid.Cid) error                            `perm:"admin"`
+		DealsPieceCidBlocklist                 func(context.Context) ([]cid.Cid, error)                          `perm:"read"`
+		DealsSetPieceCidBlocklist              func(context.Context, []cid.Cid) error                            `perm:"admin"`
 
 		StorageAddLocal func(ctx context.Context, path string) error `perm:"admin"`
 
@@ -435,12 +435,12 @@ type WorkerStruct struct {
 		ProcessSession func(context.Context) (uuid.UUID, error) `perm:"admin"`
 		Session        func(context.Context) (uuid.UUID, error) `perm:"admin"`
 
-		AllowableRange  func(ctx context.Context, task sealtasks.TaskType) (bool, error)                   `perm:"admin"`
-		GetWorkerInfo   func(ctx context.Context) sectorstorage.WorkerInfo                                 `perm:"admin"`
-		AddStore        func(ctx context.Context, ID abi.SectorID, taskType sealtasks.TaskType) error      `perm:"admin"`
-		DeleteStore     func(ctx context.Context, ID abi.SectorID, taskType sealtasks.TaskType) error      `perm:"admin"`
-		SetWorkerParams func(ctx context.Context, key string, val string) error                            `perm:"admin"`
-		GetWorkerGroup  func(ctx context.Context) string                                                   `perm:"admin"`
+		AllowableRange  func(ctx context.Context, task sealtasks.TaskType) (bool, error)              `perm:"admin"`
+		GetWorkerInfo   func(ctx context.Context) sectorstorage.WorkerInfo                            `perm:"admin"`
+		AddStore        func(ctx context.Context, ID abi.SectorID, taskType sealtasks.TaskType) error `perm:"admin"`
+		DeleteStore     func(ctx context.Context, ID abi.SectorID, taskType sealtasks.TaskType) error `perm:"admin"`
+		SetWorkerParams func(ctx context.Context, key string, val string) error                       `perm:"admin"`
+		GetWorkerGroup  func(ctx context.Context) string                                              `perm:"admin"`
 
 		WalletSignMessage2 func(context.Context, address.Address, *types.Message, string) (*types.SignedMessage, error) `perm:"admin"`
 		WalletLock         func(context.Context) error                                                                  `perm:"admin"`
@@ -2016,6 +2016,34 @@ func (c *WorkerStruct) AddWorkerTask(ctx context.Context, ID uuid.UUID) error {
 
 func (c *WorkerStruct) GetWorkerWait(ctx context.Context, ID uuid.UUID) int {
 	return c.Internal.GetWorkerWait(ctx, ID)
+}
+
+func (w *WorkerStruct) AddRange(ctx context.Context, task sealtasks.TaskType, addType int) error {
+	return w.Internal.AddRange(ctx, task, addType)
+}
+
+func (w *WorkerStruct) AllowableRange(ctx context.Context, task sealtasks.TaskType) (bool, error) {
+	return w.Internal.AllowableRange(ctx, task)
+}
+
+func (c *WorkerStruct) GetWorkerInfo(ctx context.Context) sectorstorage.WorkerInfo {
+	return c.Internal.GetWorkerInfo(ctx)
+}
+
+func (c *WorkerStruct) AddStore(ctx context.Context, ID abi.SectorID, taskType sealtasks.TaskType) error {
+	return c.Internal.AddStore(ctx, ID, taskType)
+}
+
+func (c *WorkerStruct) DeleteStore(ctx context.Context, ID abi.SectorID, taskType sealtasks.TaskType) error {
+	return c.Internal.DeleteStore(ctx, ID, taskType)
+}
+
+func (c *WorkerStruct) SetWorkerParams(ctx context.Context, key string, val string) error {
+	return c.Internal.SetWorkerParams(ctx, key, val)
+}
+
+func (c *WorkerStruct) GetWorkerGroup(ctx context.Context) string {
+	return c.Internal.GetWorkerGroup(ctx)
 }
 
 var _ api.Common = &CommonStruct{}
