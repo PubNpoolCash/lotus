@@ -1978,10 +1978,6 @@ func (w *WorkerStruct) AllowableRange(ctx context.Context, task sealtasks.TaskTy
 	return w.Internal.AllowableRange(ctx, task)
 }
 
-func (c *WorkerStruct) GetWorkerInfo(ctx context.Context) sectorstorage.WorkerInfo {
-	return c.Internal.GetWorkerInfo(ctx)
-}
-
 func (c *WorkerStruct) AddStore(ctx context.Context, ID abi.SectorID, taskType sealtasks.TaskType) error {
 	return c.Internal.AddStore(ctx, ID, taskType)
 }
@@ -2018,32 +2014,8 @@ func (c *WorkerStruct) GetWorkerWait(ctx context.Context, ID uuid.UUID) int {
 	return c.Internal.GetWorkerWait(ctx, ID)
 }
 
-func (w *WorkerStruct) AddRange(ctx context.Context, task sealtasks.TaskType, addType int) error {
-	return w.Internal.AddRange(ctx, task, addType)
-}
-
-func (w *WorkerStruct) AllowableRange(ctx context.Context, task sealtasks.TaskType) (bool, error) {
-	return w.Internal.AllowableRange(ctx, task)
-}
-
 func (c *WorkerStruct) GetWorkerInfo(ctx context.Context) sectorstorage.WorkerInfo {
 	return c.Internal.GetWorkerInfo(ctx)
-}
-
-func (c *WorkerStruct) AddStore(ctx context.Context, ID abi.SectorID, taskType sealtasks.TaskType) error {
-	return c.Internal.AddStore(ctx, ID, taskType)
-}
-
-func (c *WorkerStruct) DeleteStore(ctx context.Context, ID abi.SectorID, taskType sealtasks.TaskType) error {
-	return c.Internal.DeleteStore(ctx, ID, taskType)
-}
-
-func (c *WorkerStruct) SetWorkerParams(ctx context.Context, key string, val string) error {
-	return c.Internal.SetWorkerParams(ctx, key, val)
-}
-
-func (c *WorkerStruct) GetWorkerGroup(ctx context.Context) string {
-	return c.Internal.GetWorkerGroup(ctx)
 }
 
 var _ api.Common = &CommonStruct{}
